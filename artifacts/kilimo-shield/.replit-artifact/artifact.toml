@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "KilimoShield"
+description = "A role-aware post-harvest coordination app for farmers, facilities, transporters, buyers, and operations teams. Demonstrates a transparent, persistent demo workflow from harvest intake through storage, delivery, and buyer offers."
+version = "1.0.0"
+id = "artifacts/kilimo-shield"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 24665
+
+[services.development]
+run = "pnpm --filter @workspace/kilimo-shield run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/kilimo-shield", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/kilimo-shield/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "24665"
+BASE_PATH = "/"
